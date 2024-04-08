@@ -1,0 +1,12 @@
+react is a js library for building UI. component-based,state-driven.
+
+1> Component-based: components are building blocks of UI in react. We can also reuse the components 
+
+2> State Driven: State can change . when such changes are made React Reacts 
+
+3> react is reather a libray than a framework .Frameworks of react can be next.js and remix .
+
+4> Extremely popular created by facebook.  
+
+5> ui in sync with state by reactungreacting while state changes.
+
