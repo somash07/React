@@ -1,3 +1,14 @@
+// sort method mutates the original array 
+
+const arr=[2,3,8,1,6,0]
+console.log(arr.slice(1,3))
+const sorted=arr.sort((a,b)=> a-b)
+console.log(sorted)
+const decsorted=arr.slice().sort((a,b)=>b-a)//brandnew array and preserving arr from mutating
+console.log(decsorted)
+console.log(arr)
+
+
 const data = [
     {
       id: 1,
@@ -143,54 +154,8 @@ const data = [
     return data.find((d) => d.id === id);
   }
 
-const books= getBooks();
-// console.log(books)
+const books=getBooks();
 
-
-//1) MAP:
-// const arr=[1,2,3,4,5]
-// const mapped=arr.map((items)=>{
-//     return items*items
-// })
-// console.log(arr)
-// console.log(mapped)
-
-
-// const titles=books.map((book)=>{
-//      return book.title
-// })
-// console.log(titles)
-
-// const essentialData=books.map((book)=>
-//     ({
-//         title: book.title,
-//         author: book.author,
-//     })
-// )
-// console.log(essentialData)
-
-// 2: Filter
-//filter chaining 
-// const longBooks=books
-// .filter((book)=>(book.pages>500))
-// .filter((book)=>book.hasMovieAdaptation)
-// console.log(longBooks)
-
-// const adventure=books
-// .filter((book)=>book.genres.includes('adventure'))
-// .map((book)=>({title: book.title, id: book.id}))
-// console.log(adventure)
-
-
-// 3> reduce: all methods can be implemented using reduce but not practical. reduce entire array to just one number
-
-const pagesAllBooks = books.reduce((acc,book)=> acc+book.pages,0)  // acc is accumulator that has starting value 0
-console.log(pagesAllBooks)
-
-const mapped=books.map((book)=> book.pages)
-console.log(mapped)
-let sum=0;
-for (let i in mapped){
-    sum=sum+mapped[i]
-}
-console.log(sum)
+const sortedByPages = books.slice().sort((a,b)=>a.pages-b.pages)
+.map((book)=>book.id)
+console.log(sortedByPages)
