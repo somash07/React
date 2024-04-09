@@ -142,48 +142,16 @@ const data = [
   function getBook(id) {
     return data.find((d) => d.id === id);
   }
-  
-//destructuring 
 
-const books=getBook(2);
-const {title,author,pages,publicationDate,genres}= books;//object destructuring
+  const books=getBook(3);
 
-// console.log(title , author,publicationDate,genres)
+  getTotalreviewCount=(book)=>{
+      const goodRead = book.reviews.goodreads.reviewsCount;
+      // const librarything = book.reviews.librarything.reviewsCount;//for id 3 librarything is notddefined so error occurs
 
-// // const[primaryGenre,secondGenre]=genres;//array destructuring
+      //optional chaining 
+      const librarything = book.reviews.librarything?.reviewsCount ?? 0;//undef ?? 0 so 0
+      return goodRead + librarything
+  }
 
-
-// //RestOperator -> new array for remaining array elements. always in last in the destructuring pattern
-// const [primaryGenre,secondaryGenre,...otherGenres]=genres;
-// console.log(primaryGenre,secondaryGenre)
-// console.log(otherGenres)
-
-
-// //Spread operator for arrar :     same syntax as the rest operator. 
-// //create new array with all the genres but add a new genre to last 
-
-// // const newGenres=[genres,'fantasy']-> creates array inside an array so use spread operator 
-
-// const newGenres=[...genres,'epic-fantasy'] //takes all the values from genres array and places it in newGenres array.
-// console.log(newGenres)
-
-// //spread array for object
-
-// const updatedBook={...books,moviePublicationDate: '20001-09-24',pages: 790}//adding new property and overwriting existing property.
-// console.log(updatedBook)
-
-// ternary opereator:  
-let a=20;
-let b=30;
-console.log((a>b)?'a is greater':'b is greater')
-
-//shortcircuiting 
-console.log(true && 'hi this is second ')// consoled the last value ie no shortcircuiting
-//falsy: null,[],0,undef,''
-console.log(false && 'anything')//shortcircuiting
-
-console.log(true || 'some value')//shortcircuiting op true
-console.log(false || 'some value')//some value
-
-// knowledge coalacing operator similar to OR but sc for falsy if 0 or empty string or false
-console.log('' ?? 'some data')
+  console.log(getTotalreviewCount(books))

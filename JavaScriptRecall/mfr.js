@@ -142,48 +142,55 @@ const data = [
   function getBook(id) {
     return data.find((d) => d.id === id);
   }
-  
-//destructuring 
 
-const books=getBook(2);
-const {title,author,pages,publicationDate,genres}= books;//object destructuring
-
-// console.log(title , author,publicationDate,genres)
-
-// // const[primaryGenre,secondGenre]=genres;//array destructuring
+const books= getBooks();
+// console.log(books)
 
 
-// //RestOperator -> new array for remaining array elements. always in last in the destructuring pattern
-// const [primaryGenre,secondaryGenre,...otherGenres]=genres;
-// console.log(primaryGenre,secondaryGenre)
-// console.log(otherGenres)
+//1) MAP:
+// const arr=[1,2,3,4,5]
+// const mapped=arr.map((items)=>{
+//     return items*items
+// })
+// console.log(arr)
+// console.log(mapped)
 
 
-// //Spread operator for arrar :     same syntax as the rest operator. 
-// //create new array with all the genres but add a new genre to last 
+// const titles=books.map((book)=>{
+//      return book.title
+// })
+// console.log(titles)
 
-// // const newGenres=[genres,'fantasy']-> creates array inside an array so use spread operator 
+// const essentialData=books.map((book)=>
+//     ({
+//         title: book.title,
+//         author: book.author,
+//     })
+// )
+// console.log(essentialData)
 
-// const newGenres=[...genres,'epic-fantasy'] //takes all the values from genres array and places it in newGenres array.
-// console.log(newGenres)
+// 2: Filter
+//filter chaining 
+// const longBooks=books
+// .filter((book)=>(book.pages>500))
+// .filter((book)=>book.hasMovieAdaptation)
+// console.log(longBooks)
 
-// //spread array for object
+// const adventure=books
+// .filter((book)=>book.genres.includes('adventure'))
+// .map((book)=>({title: book.title, id: book.id}))
+// console.log(adventure)
 
-// const updatedBook={...books,moviePublicationDate: '20001-09-24',pages: 790}//adding new property and overwriting existing property.
-// console.log(updatedBook)
 
-// ternary opereator:  
-let a=20;
-let b=30;
-console.log((a>b)?'a is greater':'b is greater')
+// 3> reduce: all methods can be implemented using reduce but not practical. reduce entire array to just one number
 
-//shortcircuiting 
-console.log(true && 'hi this is second ')// consoled the last value ie no shortcircuiting
-//falsy: null,[],0,undef,''
-console.log(false && 'anything')//shortcircuiting
+const pagesAllBooks = books.reduce((acc,book)=> acc+book.pages, 0)  // acc is accumulator that has starting value 0
+console.log(pagesAllBooks)
 
-console.log(true || 'some value')//shortcircuiting op true
-console.log(false || 'some value')//some value
-
-// knowledge coalacing operator similar to OR but sc for falsy if 0 or empty string or false
-console.log('' ?? 'some data')
+const mapped=books.map((book)=> book.pages)
+console.log(mapped)
+let sum=0;
+for (let i in mapped){
+    sum=sum+mapped[i]
+}
+console.log(sum)
