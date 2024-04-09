@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    
+    <!-- this is core react that works with componenets states. this gives react object. -->
+
+    
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- this is the rendering layer which renders react component in the Dom. but react can be rendered in native app like react native. -->
+
+
+    <script>
+        function App(){
+            // const time=new Date().toLocaleTimeString();
+            const [time,setTime] = React.useState(new Date().toLocaleTimeString())
+
+            React.useEffect(()=>{
+                setInterval(()=>{
+                    setTime(new Date().toLocaleTimeString())
+                },1000)
+            },[])
+
+            return React.createElement('h1', null ,`hello world ${time}`);//(name of html elem,props,string value)
+        }
+
+        //rendering 
+        const root = ReactDOM.createRoot(document.getElementById('root'))
+        root.render(React.createElement(App))
+    </script>
+</body>
+</html>
+<!-- react library as a script from react.dev this is pure React. -->
