@@ -1,0 +1,4 @@
+Components : react components are the building block of react ui . components render the view for each component and all these views make up an UI. each components has its own data,logic and appreance. components can be reused, nested and vlues can be passed between components.
+
+
+JSX: it is a declarative syntax . conversion from jsx to js is done through BABEl included by the create-react-app. declarative is no DOM manipulation. 
