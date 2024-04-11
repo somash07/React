@@ -2,6 +2,50 @@ import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 
+const skillNames=[
+  {
+    name: "web Design",
+    level: "advanced",
+    color: "green",
+    // emoji: "💪"
+  },
+  {
+    name: "react",
+    level: "begineer",
+    color: "red",
+    // emoji: "😿"
+  },
+  {
+    name: "git and github",
+    level: "intermediate",
+    // emoji: "😸",
+    color: "yellow",
+  },
+  {
+    name: "php",
+    level: "advanced",
+    color: "green",
+    // emoji: "💪"
+  },
+  {
+    name: "js",
+    level: "intermediate",
+    color: "yellow",
+    // emoji: "😸"
+  },
+  {
+    name: "C++",
+    level: "advanced",
+    color: "green",
+    // emoji: "💪"
+  },
+  {
+    name: "nodejs",
+    level: "intermediate",
+    color: "yellow",
+    // emoji: "😸"
+  }
+]
 
 function App(){
     return(
@@ -10,15 +54,9 @@ function App(){
           <Photo/>
         </div>
         <Description/>
-        <div className='skills'>
-          <Skills name='css' color='green' emoji='😀'/>
-          <Skills name='html' color='green' emoji='😀'/>
-          <Skills name='Js' color='yellow' emoji='🙂‍↕️'/>
-          <Skills name='php' color='yellow' emoji='🙂‍↕️'/>
-          <Skills name='sql' color='blue' emoji='🤓'/>
-          <Skills name='react' color='red' emoji='🥸'/>
-          <Skills name='nodeJs' color='red' emoji='🥸'/>
-        </div>
+        <ul className="skills">
+        {skillNames.map((skill)=> <Skills skillSet={skill}/>)}
+        </ul>
       </div>
     )
 }
@@ -36,10 +74,17 @@ const Description=()=>{
   )
 }
 
-const Skills=(props)=>{
-  return(<div className='skill-container' style={{backgroundColor:props.color}}>
-        <p>{props.name} {props.emoji}</p>
-    </div>)
+const Skills=({skillSet})=>{
+  let emoji='😸';
+  if(skillSet.level=='advanced'){
+    emoji='💪'
+  }
+  else{
+    emoji='😿'
+  }
+  return(<li className='skill-container' style={{backgroundColor:skillSet.color}}>
+        <p>{skillSet.name} {emoji!=null ?emoji: '' }</p>
+    </li>)
 }
 const root=ReactDOM.createRoot(document.getElementById('root'));
 root.render(

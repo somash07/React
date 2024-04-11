@@ -20,3 +20,8 @@ rendering list is just implementing each array element as a componenet. done by 
 
 
 conditional renderring can be acheived by using && ternary operator and if else outside the jsx
+
+
+destructuring props
+
+react fragments; lets us group some element without leaving traces in the DOM.
