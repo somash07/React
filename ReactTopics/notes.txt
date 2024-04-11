@@ -12,4 +12,11 @@ each components is concerned with only one part of the UI.
 
 -> props: it is passing data between components from parent to child components. down the component tree. are just like arguments passed to js functions. 
 
-PROPS are READ_Only ie immutablee.
+PROPS are READ_Only ie immutablee.if mutating props side-effects can occur.
+
+ONE-WAY dataflow:  data can only be passed from parent to child only.top to bottom of component tree. 
+
+rendering list is just implementing each array element as a componenet. done by using a map function that basicaly passes an obj as a props
+
+
+conditional renderring can be acheived by using && ternary operator and if else outside the jsx
