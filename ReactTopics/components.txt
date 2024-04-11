@@ -1,4 +1,15 @@
 Components : react components are the building block of react ui . components render the view for each component and all these views make up an UI. each components has its own data,logic and appreance. components can be reused, nested and vlues can be passed between components.
 
+Data->props(data coming from outside and can be updated by parent components only)+state(it is internal dta that can be updated by the components logic). 
 
 JSX: it is a declarative syntax . conversion from jsx to js is done through BABEl included by the create-react-app. declarative is no DOM manipulation. 
+
+
+Html and Js are tighlty coupled. so came the rise of react components and jsx.ie html and js are colocated.
+
+each components is concerned with only one part of the UI.
+
+
+-> props: it is passing data between components from parent to child components. down the component tree. are just like arguments passed to js functions. 
+
+PROPS are READ_Only ie immutablee.
