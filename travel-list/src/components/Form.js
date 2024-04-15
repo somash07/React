@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export function Form({ onAddItems }) {
-  console.log('form');
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState(1);
 
