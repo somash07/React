@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Socks", quantity: 12, packed: false },
-  { id: 3, description: "shoes", quantity: 2, packed: true },
-];
+// const initialItems = [
+//   { id: 1, description: "Passports", quantity: 2, packed: false },
+//   { id: 2, description: "Socks", quantity: 12, packed: false },
+//   { id: 3, description: "shoes", quantity: 2, packed: true },
+// ];
 
 export default function App() {
   const [items,setItems]=useState([])
@@ -13,12 +13,16 @@ export default function App() {
     setItems((items)=>[...items,item])
   }
 
+  function handleDeleteItem(id){
+    setItems((items)=>items.filter((item)=> item.id!==id))
+  }
+
   return (
     <div className='app'>
       <Logo />
       <Form onAddItems={handleAddItems}/>
-      <PackingList items={items}/>
-      <Stats />
+      <PackingList items={items} onDeleteItem={handleDeleteItem}/>
+      <Stats itemLength={items.length}/>
     </div>
   )
 }
@@ -44,7 +48,7 @@ function Form({onAddItems}) {
       'packed': false,
       id: Date.now()
     };
-    console.log(newItem)
+    // console.log(newItem)
 
     onAddItems(newItem)
 
@@ -68,25 +72,27 @@ function Form({onAddItems}) {
   )
 }
 
-function PackingList({items}) {
+function PackingList({items,onDeleteItem}) {
+
   return (
     <div className='list'>
       <ul>
-        {items.map(item => <Item item={item} key={initialItems.id}/>)}
+        {items.map(item => <Item item={item} onDelete={onDeleteItem} key={items.id}/>)}
       </ul>
     </div>
   )
 }
 
-function Item({ item }) {
+function Item({ item ,onDelete}) {
   return <li key={item.id}>
+    <input type='checkbox' value={item.packed} onChange={()=>} />
     <span  style={item.packed?{textDecoration: 'line-through'}:{}}>{item.quantity} {item.description}
     </span>
-  <button>❌</button>
+  <button onClick={()=>onDelete(item.id)}>❌</button>
   </li>
 }
-function Stats() {
+function Stats({itemLength}) {
   return <footer className='stats'>
-    you have X items on your list and youve already packed X (X%)
+    you have {(itemLength>0)?itemLength:'0'} items on your list and youve already packed X (X%)
   </footer>
 }
