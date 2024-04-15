@@ -1,7 +1,7 @@
-export default function Stats(){
+export default function Stats({items}){
     return(
         <div>
-            <p>you have x goals in your list</p>
+            <p>{(items.length!==0)?`you have ${items.length} tasks in your todos and ${items.filter((item)=>item.completed).length}`: 'please add items to todo'}</p>
         </div>
     )
 }

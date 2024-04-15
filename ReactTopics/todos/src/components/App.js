@@ -26,7 +26,7 @@ export default function App(){
       < Logo/>
       < Form items={items} onAddItem={handleAddItem}/>
       < TodoList items={items} onDelete={handleDelete} onToggle={handleToggle}/>
-      < Stats/>
+      < Stats items={items}/>
       </div>
    )
 }

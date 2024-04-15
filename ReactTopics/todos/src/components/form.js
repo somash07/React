@@ -3,7 +3,6 @@ import { useState } from "react";
 export default function Form({items,onAddItem}){
 
     const [description,setDescription]=useState('')
-    const [priority,setPriority]=useState(1)
 
     function handleSubmit(e){
         e.preventDefault();
@@ -17,7 +16,6 @@ export default function Form({items,onAddItem}){
         onAddItem(newItm)
 
         setDescription('')
-        setPriority(1)
     }
 
 
