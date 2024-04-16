@@ -27,7 +27,7 @@ const App = () => {
 
   return (
     <div>
-      <button className='close' onClick={()=>setisOpen(false)} >x</button>
+      <button class='close' onClick={()=>setisOpen(false)} >x</button>
     {isOpen?
     <div className="steps" > 
       <div className='numbers'>
@@ -40,8 +40,11 @@ const App = () => {
       </p>
 
       <div className="buttons">
-        <Button bgColor='#7950f2' textColor='#fff' onClick={handlePrevious} text='Previous' emoji='👈'/>
-        <Button bgColor='#7950f2' textColor='#fff' onClick={handleNext} text='Next' emoji='👉'/>
+        <button style={{backgroundColor: '#7950f2', color: '#fff'}} 
+        onClick={handlePrevious}
+        
+        >Previous</button>
+        <button style={{backgroundColor: '#7950f2', color: '#fff'}} onClick={handleNext}>Next</button>
       </div>
     </div>:''
 }
@@ -49,7 +52,4 @@ const App = () => {
   )
 }
 
-function Button({textColor,bgColor,onClick,text,emoji}){
-  return <button style={{backgroundColor: bgColor, color: textColor}} onClick={onClick}><span>{emoji}</span>{text}</button>
-}
 export default App
