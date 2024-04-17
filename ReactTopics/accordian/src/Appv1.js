@@ -1,5 +1,4 @@
 
-
 import './App.css';
 import {useState} from 'react'
 
@@ -30,38 +29,25 @@ function App() {
 }
 
 function Accordion({data}){
-
-    const [currOpen,setIsOpen]=useState(null)
   return <div className='accordion'>
-    {data.map((el,index)=>(
-    <AccordionItem 
-        currOpen={currOpen} 
-        onOpen={setIsOpen} 
-        title={el.title} 
-        text={el.text} 
-        num={index} 
-        key={el.title}
-    >
-        {el.text}    
-    </AccordionItem>
-        ))}
+    {data.map((el,index)=><AccordionItem title={el.title} text={el.text} num={index} key={el.title}/>)}
   </div>
 }
 
 
-function AccordionItem({num,title,children,currOpen,onOpen}){
+function AccordionItem({num,title,text}){
 
-  const isOpen = num === currOpen;
+  const [isOpen,setIsOpen]=useState(false);
 
   function handleToggle(){
-    onOpen(isOpen? null : num)
+    setIsOpen((isOpen)=>!isOpen)
   }
 
   return <div className={`item ${isOpen?'open':''}`} onClick={handleToggle} >
     <p className='number'>{num<9? `0${num+1}`: num+1}</p>
     <p className='title'>{title}</p>
     <p className='icon'>{isOpen?'-':'+'}</p>
-    {isOpen && <div className='content-box>'>{children}</div>
+    {isOpen && <div className='content-box>'>{text}</div>
    }
   </div>
 }

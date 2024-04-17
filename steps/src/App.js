@@ -10,10 +10,21 @@ const App = () => {
   // 2. use it in ConvolverNode
   // 3. update state in event handler
 
+
+//use a callBack in setStep insted of directly using current state
+
+  return (
+    <div>
+      <Steps />
+      <StepMessage step={1}> <p>hi i am somash</p> </StepMessage>
+    </div>
+  )
+}
+
+function Steps(){
   const [step,setStep]=useState(1);
   const [isOpen,setisOpen]=useState(true)
 
-//use a callBack in setStep insted of directly using current state
   function handlePrevious(){
     if(step>1)
      setStep((s)=>s-1)
@@ -25,9 +36,8 @@ const App = () => {
   }
 
 
-  return (
-    <div>
-      <button className='close' onClick={()=>setisOpen(false)} >x</button>
+  return <div>
+      <button className='close' onClick={()=>setisOpen(!isOpen)} >{isOpen?'x': '+'}</button>
     {isOpen?
     <div className="steps" > 
       <div className='numbers'>
@@ -36,20 +46,25 @@ const App = () => {
         <div className={step>=3?'active': ''}>3</div>
       </div>
 
-      <p className="message">Step: {step}: {messages[step-1]}
-      </p>
+      <StepMessage step={step}> 
+          <p>{messages[step-1]}</p>
+      </StepMessage>
 
       <div className="buttons">
-        <Button bgColor='#7950f2' textColor='#fff' onClick={handlePrevious} text='Previous' emoji='👈'/>
-        <Button bgColor='#7950f2' textColor='#fff' onClick={handleNext} text='Next' emoji='👉'/>
+        <Button bgColor='#7950f2' textColor='#fff' onClick={handlePrevious}><span>👈</span>Previous</Button>
+        <Button bgColor='#7950f2' textColor='#fff' onClick={handleNext}><span>👉</span>Next</Button>
       </div>
     </div>:''
 }
     </div>
-  )
 }
-
-function Button({textColor,bgColor,onClick,text,emoji}){
-  return <button style={{backgroundColor: bgColor, color: textColor}} onClick={onClick}><span>{emoji}</span>{text}</button>
+function StepMessage({step,children}){
+  return <div className='message'>
+    <h3>Step: {step}</h3>
+    {children}
+  </div>
+}
+function Button({textColor,bgColor,onClick,children}){
+  return <button style={{backgroundColor: bgColor, color: textColor}} onClick={onClick}>{children}</button>
 }
 export default App
