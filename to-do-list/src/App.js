@@ -2,35 +2,24 @@ import { useState } from "react"
 import { Form } from "./Form";
 import { TodoList } from "./TodoList";
 
-const demoItems=[
-  {
-    id: 1,
-    description: 'read',
-    AddedOn: '17/02'
-  },
-  {
-    id: 1,
-    description: 'read',
-    AddedOn: '17/02'
-  },
-  {
-    id: 1,
-    description: 'read',
-    AddedOn: '17/02'
-  }
-]
+
 
 export default function App() {
-
-  const [todoItems,setTodoItem]=useState(demoItems);
- 
+  const [todoItems,setTodoItem]=useState([]);
+  const completedTasks=todoItems?.filter((todo)=>todo.completed).length 
   function handleToggle(item){
-    setTodoItem((todoItems)=> todoItems.map((todo)=> (todo.id===item.id)? {...todo,completed: item.completed}: todo))
+    setTodoItem((todoItems)=> todoItems.map((todo)=> (todo.id===item.id)? {...todo,completed: !item.completed}: todo))
   }
 
   function handleAddTask(item){
+    if(item.description==='') return
     setTodoItem((todoItems)=> [...todoItems,item])
   }
+
+  function handleDelete(item){
+    setTodoItem((todoItems.filter((todo)=>todo.id!==item.id)))
+  }
+
   return (
     <div className='main-container'>
       <div className='date-container'>
@@ -38,8 +27,17 @@ export default function App() {
         <span>{new Date().toLocaleString().split(',')[0]}</span>
       </div>
       <Form todoItems={todoItems} onAddTask={handleAddTask}/>
-      <TodoList todoItems={todoItems} onToggle={handleToggle}/>
+      {todoItems.length===0? <p className="text" >Add a new todo</p> : 
+      <TodoList todoItems={todoItems} onToggle={handleToggle} onDelete={handleDelete}/>}
+      <Stats todosLength={todoItems.length} completedTasks={completedTasks}/>
     </div>
   )
 }
 
+function Stats({todosLength,completedTasks}){
+  return (
+    <div className="stats">
+      <p>You have {todosLength} tasks and {completedTasks} are completed </p>
+    </div>
+  )
+}

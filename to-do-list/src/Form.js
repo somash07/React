@@ -7,6 +7,7 @@ export function Form({ todoItems, onAddTask }) {
   function handleSubmit(e) {
     e.preventDefault();
 
+
     const newTodo = {
       id: crypto.randomUUID(),
       description,

@@ -1,9 +1,13 @@
 import { TodoItem } from "./TodoItem";
+import {useState} from 'react'
 
-export function TodoList({ todoItems, onToggle }) {
+export function TodoList({ todoItems, onToggle,onDelete }) {
+
   return (
-    <ol className='todo-list'>
-      {todoItems.map(todo => <TodoItem todo={todo} onToggle={onToggle} />)}
+    <div className='todo-list'>
+    <ol>
+      {todoItems.map(todo => <TodoItem todo={todo} onToggle={onToggle} onDelete={onDelete} />)}
     </ol>
+    </div>
   );
 }

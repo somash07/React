@@ -48,8 +48,9 @@ body{
 
 .todo-list{
   max-height: 360px;
-  overflow-y: auto;
+  overflow-y: scroll;
   width: inherit; 
+  border-bottom: 1px solid white;
 }
 
 .todo-item{
@@ -79,6 +80,15 @@ body{
   color: whitesmoke;
 }
 
+.text{
+  font-size: 30px;
+  font-family: 'Roboto';
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 form{
   height: 100px;
   display: flex;
@@ -106,4 +116,27 @@ input[type='text']{
 
 .desc{
   width: 200px;
+}
+
+select{
+  width: 100px;
+  height: 40px;
+  border-radius: 15px;
+  outline: none;
+}
+
+.filter-container{
+  height: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.stats{
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 16x;
 }
