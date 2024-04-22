@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import PropTypes from 'prop-types' 
 const containerStyle = {
   display: "flex",
   alignItems: "center",
@@ -10,17 +10,33 @@ const starContainerStyle = {
   display: "flex",
 };
 
+StarRating.propTypes={
+  maxRating: PropTypes.number,
+}
 
-export default function StarRating({ maxRating = 5 , color='#fcc419' ,size=48 ,className=''}) {
-  const [rating, setRating] = useState(0);
+
+export default function StarRating({
+  maxRating = 5,
+  color = "#fcc419",
+  size = 48,
+  className = "",
+  messages = [],
+  defaultRating=0,
+  onSetRating
+}) {
+  const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
-    
+  function handleRate(i){
+    setRating(i + 1)
+    onSetRating(i+1)
+  }
+
   const textStyle = {
     lineHeight: "1",
     margin: "0",
     color,
-    fontSize: `${size/1.5}px`
+    fontSize: `${size / 1.5}px`,
   };
   return (
     <div style={containerStyle}>
@@ -28,28 +44,31 @@ export default function StarRating({ maxRating = 5 , color='#fcc419' ,size=48 ,c
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
             key={i}
-            onRate={() => setRating(i + 1)}
-            full={tempRating? tempRating>=i+1 :rating >= i + 1}
-            onHoverIn={()=>setTempRating(i+1)}
-            onHoverOut={()=>setTempRating(0)}
+            onRate={()=>handleRate(i)}
+            full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
             color={color}
             size={size}
           />
         ))}
       </div>
-      <p style={textStyle}>{tempRating || rating|| ""}</p>
+      <p style={textStyle}>
+        {messages.length === maxRating
+          ? messages[tempRating ? tempRating - 1 : rating - 1]
+          : tempRating || rating || ""}
+      </p>
     </div>
   );
 }
 
-function Star({ onRate, full ,onHoverIn,onHoverOut,color='green',size}) {
-
-    const starStyle = {
-        width: `${size}px`,
-        height: `${size}px`,
-        display: "block",
-        cursor: "pointer",
-      };
+function Star({ onRate, full, onHoverIn, onHoverOut, color = "green", size }) {
+  const starStyle = {
+    width: `${size}px`,
+    height: `${size}px`,
+    display: "block",
+    cursor: "pointer",
+  };
   return (
     <span
       role="button"
@@ -70,7 +89,7 @@ function Star({ onRate, full ,onHoverIn,onHoverOut,color='green',size}) {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill='none'
+          fill="none"
           viewBox="0 0 24 24"
           stroke={color}
         >
