@@ -1,23 +1,36 @@
-const containerStyle={
-    display: 'flex',
-    justifyContent: 'space-between'
-}
+import { useState } from "react";
 
+const containerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+};
 
+export default function TextExpander({
+  collapseNumWords= 20,
+  collapseButtonText='show less',
+  expandButtonText='show more',
+  buttonColor,
+  children,
+  className = "",
+  expanded=false
+}) {
 
-export default function TextExpander({children,textLimit,buttonColor,buttonContent}){
+    const [isExpanded,setIsExpanded]=useState(expanded);
 
-    const buttonStyle={
-        backgroundColor: 'inherit',
-        border: 'none',
-        color: buttonColor
-    }
-    return (
-        <div style={containerStyle}>
-            <p>
-            {children}
-            <button style={buttonStyle}>{buttonContent}</button>
-            </p>
-        </div>
-    )
+    const displayText =isExpanded? children : (children.split(' ').slice(0,collapseNumWords).join(' ')+ '...')
+
+  const buttonStyle = {
+    backgroundColor: "inherit",
+    border: "none",
+    color: buttonColor,
+  };
+
+  return (
+    <div style={containerStyle} className={className}>
+      <p>
+        {displayText}
+        <button style={buttonStyle} onClick={()=>setIsExpanded(exp=> !exp)}>{isExpanded? collapseButtonText: expandButtonText}</button>
+      </p>
+    </div>
+  );
 }
