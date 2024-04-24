@@ -27,8 +27,9 @@ export default function App() {
 }
 
 function Tabbed({ content }) {
+  console.log('tabbed')
   const [activeTab, setActiveTab] = useState(0);
-
+  
   return (
     <div>
       <div className="tabs">
@@ -48,6 +49,7 @@ function Tabbed({ content }) {
 }
 
 function Tab({ num, activeTab, onClick }) {
+  console.log('tab')
   return (
     <button
       className={activeTab === num ? "tab active" : "tab"}
@@ -59,6 +61,7 @@ function Tab({ num, activeTab, onClick }) {
 }
 
 function TabContent({ item }) {
+  console.log('tabcontent')
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
@@ -88,7 +91,7 @@ function TabContent({ item }) {
         <button>Undo in 2s</button>
       </div>
     </div>
-  );
+  ); 
 }
 
 function DifferentContent() {
