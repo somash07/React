@@ -26,49 +26,65 @@ const initialFriends = [
 ];
 
 export default function App() {
-  const [showAddFriend, setShowAddFriend] = useState(false)
+  const [showAddFriend, setShowAddFriend] = useState(false);
 
-  const [friends, setFriends] = useState(initialFriends)
+  const [friends, setFriends] = useState(initialFriends);
 
-  const [selectedFriend, setSelectedFriend] = useState(null)
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
   function handleshowAddFriend() {
-    setShowAddFriend((s) => !s)
+    setShowAddFriend((s) => !s);
   }
 
   function handleAddFriend(friend) {
-    setFriends((friends) => [...friends, friend])
-    setShowAddFriend(false)
+    setFriends((friends) => [...friends, friend]);
+    setShowAddFriend(false);
   }
 
-  function handleSplitBill(value){
+  function handleSplitBill(value) {
     // console.log(value)
-    setFriends(friends => friends.map(friend=> friend.id===selectedFriend.id ? {...friend,balance: friend.balance+value}: friend))
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
 
-    setSelectedFriend(null)
+    setSelectedFriend(null);
   }
 
   function handleSelection(friend) {
-    setSelectedFriend(curr => curr?.id === friend.id ? null : friend)
-    setShowAddFriend(false)
+    setSelectedFriend((curr) => (curr?.id === friend.id ? null : friend));
+    setShowAddFriend(false);
     // setSelectedFriend(friend)
   }
 
   return (
-    <div className='app'>
-      <div className='sidebar'>
-        <FriendsList friends={friends} onSelection={handleSelection} selectedFriend={selectedFriend} />
+    <div className="app">
+      <div className="sidebar">
+        <FriendsList
+          friends={friends}
+          onSelection={handleSelection}
+          selectedFriend={selectedFriend}
+        />
 
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
 
-        <Button onClick={handleshowAddFriend}>{!showAddFriend ? 'Add friend' : 'close'}</Button>
-
+        <Button onClick={handleshowAddFriend}>
+          {!showAddFriend ? "Add friend" : "close"}
+        </Button>
       </div>
 
-      {selectedFriend === null ? '' :
-        <FormSplitBill selectedFriend={selectedFriend} onSplitBill={handleSplitBill} />
-      }
+      {selectedFriend === null ? (
+        ""
+      ) : (
+        <FormSplitBill
+          key={selectedFriend.id}
+          selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
+        />
+      )}
     </div>
-  )
+  );
 }
-
