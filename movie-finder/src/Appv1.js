@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const tempMovieData = [
   {
@@ -50,19 +50,9 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "374ea490";
-
-export default function App() {
-  //structural comp
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-
-  useEffect(function Effect() {
-    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
-  }, []);
-
+export default function App() {//structural comp
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
   return (
     <>
       <NavBar>
@@ -74,43 +64,37 @@ export default function App() {
           <MovieList movies={movies} />
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+            <WatchedSummary watched={watched} />
+            <WatchedMovieList watched={watched} />
         </Box>
       </Main>
     </>
-  );
+  )
 }
 
-function NavBar({ children }) {
-  //structural comp
+function NavBar({ children }) {//structural comp
   return (
     <nav className="nav-bar">
       <Logo />
       {children}
     </nav>
-  );
+  )
 }
 
-function Logo() {
-  //presentational
+function Logo() {//presentational 
   return (
     <div className="logo">
       <span role="img">🍿</span>
       <h1>usePopcorn</h1>
     </div>
-  );
+  )
 }
-function NumResults({ movies }) {
-  //presentational
-  return (
-    <p className="num-results">
-      Found <strong>{movies.length}</strong> results
-    </p>
-  );
+function NumResults({ movies }) { //presentational
+  return (<p className="num-results">
+    Found <strong>{movies.length}</strong> results
+  </p>)
 }
-function Search() {
-  //stateful
+function Search() {//stateful 
   const [query, setQuery] = useState("");
   return (
     <input
@@ -120,25 +104,27 @@ function Search() {
       value={query}
       onChange={(e) => setQuery(e.target.value)}
     />
-  );
+  )
 }
-function Main({ children }) {
-  //structural
-  return <main className="main">{children}</main>;
+function Main({ children }) { //structural
+  return (
+    <main className="main">
+      {children}
+    </main>
+  )
 }
 
-function WatchedMovieList({ watched }) {
-  // presentational
+
+function WatchedMovieList({ watched }) { // presentational
   return (
     <ul className="list">
       {watched.map((movie) => (
         <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
-  );
+  )
 }
-function WatchedMovie({ movie }) {
-  //presentational
+function WatchedMovie({ movie }) {//presentational
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -158,10 +144,9 @@ function WatchedMovie({ movie }) {
         </p>
       </div>
     </li>
-  );
+  )
 }
-function WatchedSummary({ watched }) {
-  //presentational
+function WatchedSummary({ watched }) { //presentational
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
@@ -187,18 +172,20 @@ function WatchedSummary({ watched }) {
         </p>
       </div>
     </div>
-  );
+  )
 }
 function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+      <button
+        className="btn-toggle"
+        onClick={() => setIsOpen((open) => !open)}
+      >
         {isOpen ? "–" : "+"}
       </button>
       {isOpen && children}
-    </div>
-  );
+    </div>)
 }
 
 // function WatchedBox() { //stateful
@@ -223,6 +210,7 @@ function Box({ children }) {
 //   )
 // }
 
+
 function MovieList({ movies }) {
   return (
     <ul className="list">
@@ -230,11 +218,10 @@ function MovieList({ movies }) {
         <Movie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
-  );
+  )
 }
 
-function Movie({ movie }) {
-  //presentational
+function Movie({ movie }) {//presentational
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -246,5 +233,5 @@ function Movie({ movie }) {
         </p>
       </div>
     </li>
-  );
+  )
 }
