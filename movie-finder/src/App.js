@@ -59,13 +59,15 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error,setError]=useState("")
-  const query = "interasdstellar";
+  const [query, setQuery] = useState("");
+  const [error,setError]=useState("");
+  const [selectedId,setSelectedId]=useState(null);
 
   useEffect(()=>{
     async function fetchMovies() {
       try {
         setIsLoading(true);
+        setError('')
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
@@ -80,12 +82,19 @@ export default function App() {
         setIsLoading(false);
       }
     }
+    if(!query.length){
+      setMovies([])
+      setError('')
+      return
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
+
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
       <Main>
@@ -138,9 +147,8 @@ function NumResults({ movies }) {
     </p>
   );
 }
-function Search() {
+function Search({query,setQuery}) {
   //stateful
-  const [query, setQuery] = useState("");
   return (
     <input
       className="search"
