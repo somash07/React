@@ -1,3 +1,4 @@
+import { useState } from "react"
 
 const tempMovieData = [
   {
@@ -32,13 +33,29 @@ const listStyle={
   border: '1px solid red'
 }
 
+const listStyleOpen={
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '300px',
+  width: '300px',
+  border: '1px solid red',
+  backgroundColor: 'black',
+  color: 'white'
+}
+
 const containerStyle={
   display: 'flex',
   justifyContent: 'space-between',
 }
 export default function App(){
+  const [open,setOpen]=useState('')
+
+  function handleClick(movie){
+    setOpen(movie.imdbID)
+  }
   return <ul style={containerStyle}>
-    {tempMovieData.map((val)=><CompPiece title={val.Title} />)}
+    {tempMovieData.map((val)=><CompPiece key= {val.imdbID}movie={val} onClick={handleClick} open={open}/>)}
     {/* <h3>{val.Title}</h3> */}
   </ul>
 }
@@ -47,6 +64,6 @@ export default function App(){
 //   return <li>{children}</li>
 // }
 
-function CompPiece({title}){
-  return <li style={listStyle}>{title}</li>
+function CompPiece({movie,onClick,open}){
+  return (<li style={listStyle} onClick={()=>onClick(movie)}>{open===movie.imdbID? <img src={movie.Poster}/>: movie.Title}</li>)
 }
