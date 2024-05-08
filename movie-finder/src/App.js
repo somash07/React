@@ -1,5 +1,3 @@
-
-
 import { useEffect, useState } from "react";
 
 // const tempMovieData = [
@@ -55,39 +53,46 @@ const average = (arr) =>
 const KEY = "374ea490";
 
 export default function App() {
-
-  console.log('rerender')
+  console.log("rerender");
   //structural comp
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [error,setError]=useState("");
-  const [selectedId,setSelectedId]=useState(null);
+  const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
 
-  useEffect(()=>{
+  function handleSelectMovie(movieId) {
+    movieId === selectedId ? setSelectedId(null) : setSelectedId(movieId);
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
+  useEffect(() => {
     async function fetchMovies() {
       try {
         setIsLoading(true);
-        setError('')
+        setError("");
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
         );
         if (!res.ok) throw new Error("something went worng..");
         const data = await res.json();
-
-        if(data.Response==='False') throw new Error('movie not found')
+        console.log(data);
+        if (data.Response === "False") throw new Error("movie not found");
         setMovies(data.Search);
       } catch (err) {
-        setError(err.message)
-      }finally{
+        setError(err.message);
+      } finally {
         setIsLoading(false);
       }
     }
-    if(!query.length){
-      setMovies([])
-      setError('')
-      return
+    if (!query.length) {
+      setMovies([]);
+      setError("");
+      return;
     }
 
     fetchMovies();
@@ -102,16 +107,38 @@ export default function App() {
       <Main>
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />}</Box> */}
-          {isLoading && <Loader/>}
-          {!isLoading && !error && <MovieList movies={movies}/>}
-          {error && <ErrorMessage message={error}/>}
+          {isLoading && <Loader />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
+  );
+}
+
+function MovieDetails({ selectedId, onCloseMovie }) {
+  return (
+    <div className="details">
+      <button className="btn" onClick={onCloseMovie}>
+        &larr;
+      </button>
+      {selectedId}
+    </div>
   );
 }
 
@@ -128,8 +155,8 @@ function NavBar({ children }) {
   );
 }
 
-function ErrorMessage({message}){
-  return <p className="error">{message}</p>
+function ErrorMessage({ message }) {
+  return <p className="error">{message}</p>;
 }
 
 function Logo() {
@@ -149,7 +176,7 @@ function NumResults({ movies }) {
     </p>
   );
 }
-function Search({query,setQuery}) {
+function Search({ query, setQuery }) {
   //stateful
   return (
     <input
@@ -262,20 +289,20 @@ function Box({ children }) {
 //   )
 // }
 
-function MovieList({ movies }) {
+function MovieList({ movies, onSelectMovie }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
+        <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie} />
       ))}
     </ul>
   );
 }
 
-function Movie({ movie }) {
+function Movie({ movie, onSelectMovie }) {
   //presentational
   return (
-    <li>
+    <li onClick={() => onSelectMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
