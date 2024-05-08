@@ -55,6 +55,8 @@ const average = (arr) =>
 const KEY = "374ea490";
 
 export default function App() {
+
+  console.log('rerender')
   //structural comp
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
