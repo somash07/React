@@ -53,7 +53,7 @@ const average = (arr) =>
 const KEY = "374ea490";
 
 export default function App() {
-  console.log("rerender");
+  // console.log("rerender");
   //structural comp
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
@@ -132,11 +132,42 @@ export default function App() {
 }
 
 function MovieDetails({ selectedId, onCloseMovie }) {
+  const [movie, setMovie] = useState({});
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    RunTime: runTime,
+    imdbRating,
+    Plot: plot,
+    Releasedate: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  useEffect(() => {
+    async function getMovieData() {
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+      );
+      const data = await res.json();
+      setMovie(data)
+    }
+    getMovieData();
+  }, []);
   return (
     <div className="details">
-      <button className="btn" onClick={onCloseMovie}>
-        &larr;
-      </button>
+      <header>
+        <button className="btn btn-back" onClick={onCloseMovie}>
+          &larr;
+        </button>
+        <img src={poster} alt={`Poster of ${title}`}/>
+        <div className='details-overview'>
+          <h2>{title}</h2>
+          <p>{runTime}</p>
+        </div>
+      </header>
       {selectedId}
     </div>
   );
