@@ -78,16 +78,6 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbId !== id));
   }
 
-  useEffect(()=>{
-    document.addEventListener('keydown',(e)=>{
-      if(e.code === 'Escape'){
-        handleCloseMovie()
-        console.log('closing with escape key')
-      }
-    })
-
-    
-  })
   useEffect(() => {
     const controller =new AbortController()//native browser api for data fetching clean up.
     async function fetchMovies() {
@@ -99,7 +89,7 @@ export default function App() {
         );
         if (!res.ok) throw new Error("something went worng..");
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         if (data.Response === "False") throw new Error("movie not found");
         setMovies(data.Search);
         setError('')
@@ -118,6 +108,7 @@ export default function App() {
       return;
     }
 
+    handleCloseMovie();
     fetchMovies();
 
 
@@ -224,10 +215,26 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
     return (()=> {
       document.title='MovieManiac'
-      console.log(`clean up effect for movie ${title}`)
+      // console.log(`clean up effect for movie ${title}`)
       // this will remember the title even after the unmount because of a closure that states a funx will remember all the variable that were present at the time of fnx creation.
     })
   }, [title]);
+
+
+  useEffect(()=>{
+    //oneach mount a event listener is added to the document. 
+    const callBack=(e)=>{
+      if(e.code === 'Escape'){
+        onCloseMovie()
+        // console.log('closing with escape key')
+      }
+    }
+    document.addEventListener('keydown',callBack)
+
+    return (()=> document.removeEventListener('keydown', callBack ))
+  },[onCloseMovie])
+
+
   return (
     <div className="details">
       {isLoading ? (
