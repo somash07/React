@@ -77,21 +77,37 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbId !== id));
   }
+
+  useEffect(()=>{
+    document.addEventListener('keydown',(e)=>{
+      if(e.code === 'Escape'){
+        handleCloseMovie()
+        console.log('closing with escape key')
+      }
+    })
+
+    
+  })
   useEffect(() => {
+    const controller =new AbortController()//native browser api for data fetching clean up.
     async function fetchMovies() {
       try {
         setIsLoading(true);
         setError("");
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,{signal: controller.signal}
         );
         if (!res.ok) throw new Error("something went worng..");
         const data = await res.json();
         console.log(data);
         if (data.Response === "False") throw new Error("movie not found");
         setMovies(data.Search);
+        setError('')
       } catch (err) {
-        setError(err.message);
+        //its not a error so 
+        if(err.name!=='AbortError'){
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -103,6 +119,11 @@ export default function App() {
     }
 
     fetchMovies();
+
+
+    return(()=>{
+      return controller.abort()
+    })
   }, [query]);
 
   return (
@@ -180,6 +201,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onCloseMovie();
   }
   useEffect(() => {
+    const controller =new AbortController()//native browser api for data fetching clean up.
     try {
       async function getMovieData() {
         setIsLoading(true);
@@ -196,6 +218,16 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       throw new Error(err);
     }
   }, [selectedId]);
+
+  useEffect(() => {
+    document.title = `Movie | ${title}`;
+
+    return (()=> {
+      document.title='MovieManiac'
+      console.log(`clean up effect for movie ${title}`)
+      // this will remember the title even after the unmount because of a closure that states a funx will remember all the variable that were present at the time of fnx creation.
+    })
+  }, [title]);
   return (
     <div className="details">
       {isLoading ? (
@@ -333,7 +365,12 @@ function WatchedMovie({ movie, onDeleteWatchedMovie }) {
           <span>⏳</span>
           <span>{movie.runtime} min</span>
         </p>
-        <button className='btn-delete' onClick={() => onDeleteWatchedMovie(movie.imdbId)}>x</button>
+        <button
+          className="btn-delete"
+          onClick={() => onDeleteWatchedMovie(movie.imdbId)}
+        >
+          x
+        </button>
       </div>
     </li>
   );
