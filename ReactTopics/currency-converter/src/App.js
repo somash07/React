@@ -1,56 +1,46 @@
 import { useState, useEffect } from "react";
 export default function App() {
-  const [query, setQuery] = useState("");
-  const [result, setResult] = useState("somash");
-  const [fromCurr,setFromCurr]=useState('AUD')
-  const [toCurr,setToCurr]=useState('USD')
+  const [query, setQuery] = useState(1);
+  const [fromCurr, setFromCurr] = useState("AUD");
+  const [toCurr, settoCurr] = useState("INR");
+  const [res,setRes]=useState('')
   const [err,setErr]=useState('')
 
   useEffect(()=>{
+    try{
     const fetcher=async()=>{
-      try{
       const res=await fetch(`https://api.frankfurter.app/latest?amount=${query}&from=${fromCurr}&to=${toCurr}`)
-      const data= await res.json()
-        setResult(data.rates)
-      }catch(err){
-        setErr(err)
-      }
-      finally{
-        setErr('')
-      }
+      const data=await res.json()
+      console.log(data.rates[toCurr])
+      setRes(data.rates[toCurr])
     }
     fetcher()
-  },[fromCurr,toCurr,query])
+  }
+  catch(err){
+    setErr(err.message)
+  }
+  finally{
+
+  }
+  },[query,fromCurr,toCurr])
   return (
     <div>
-      <Search query={query} setQuery={setQuery} />
-
-      <select value={fromCurr} onChange={(e)=>setFromCurr((e.target.value))}>
-        <option value='AUD'>AUD</option>
-        <option value='NPR'>NPR</option>
-        <option value='INR'>INR</option>
-        <option value='EUR'>EUR</option>
+      <input type="text" value={query} onChange={(e)=>setQuery(Number(e.target.value))} placeholder='enter amount' />
+      <select value={fromCurr} onChange={(e)=>setFromCurr(e.target.value)}>
+        <option value="AUD">AUD</option>
+        <option value="EUR">EUR</option>
+        <option value="INR">INR</option>
+        <option value="USD">USD</option>
       </select>
 
-      <select value={toCurr} onChange={(e)=>setToCurr((e.target.value))}>
-        <option value='AUD'>AUD</option>
-        <option value='NPR'>NPR</option>
-        <option value='INR'>INR</option>
-        <option value='EUR'>EUR</option>
+      <select value={toCurr} onChange={(e)=>settoCurr(Number(e.target.value))}>
+        <option value="AUD">AUD</option>
+        <option value="EUR">EUR</option>
+        <option value="INR">INR</option>
+        <option value="USD">USD</option>
       </select>
-      <p>{!err? result : err.message}</p>
+
+      <p>{}</p>
     </div>
-
-  );
-}
-
-function Search({ query, setQuery }) {
-  return (
-    <input
-      type="text"
-      value={query}
-      placeHolder="enter the amount"
-      onChange={(e) => setQuery(e.target.value)}
-    />
   );
 }
