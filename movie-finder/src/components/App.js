@@ -66,7 +66,13 @@ export default function App() {
   // console.log("rerender");
   //structural comp
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(
+    function(){
+      const storedVal=localStorage.getItem('watched')
+      return JSON.parse(storedVal)
+    }
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
@@ -82,12 +88,17 @@ export default function App() {
 
   function handleAddWatch(movie) {
     setWatched((watched) => [...watched, movie]);
+
+    localStorage.setItem('watched', JSON.stringify([...watched,movie]))
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbId !== id));
   }
 
+  useEffect(()=>{
+    localStorage.setItem('watched', JSON.stringify(watched))
+  },[watched])
   useEffect(() => {
     const controller =new AbortController()//native browser api for data fetching clean up.
     async function fetchMovies() {

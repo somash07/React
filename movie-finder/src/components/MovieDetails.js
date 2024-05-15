@@ -16,6 +16,8 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
     Title: title, Year: year, Poster: poster, Runtime: runTime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre,
   } = movie;
 
+  const [avgRating,setAvgRating]=useState(0)
+
   function handleAdd() {
     const newWatchedMovie = {
       imdbId: selectedId,
@@ -28,7 +30,8 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
     };
     // console.log(newWatchedMovie)
     onAddWatched(newWatchedMovie);
-    onCloseMovie();
+    // onCloseMovie();
+    setAvgRating(((Number(imdbRating)+userRating)/2))
   }
   useEffect(() => {
     const controller = new AbortController(); //native browser api for data fetching clean up.
@@ -96,6 +99,7 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
               </p>
             </div>
           </header>
+          <p className='rating'>The average rating is: {avgRating}</p>
           <section>
             {!isWatched ? (
               <div className="rating">
