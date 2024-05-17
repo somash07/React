@@ -1,22 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import StarRating from "./StarRating";
 import { KEY } from "./App";
 import { Loader } from "./Loader";
 
-export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
+export function MovieDetails({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watched,
+}) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) {
+      countRef.current = countRef.current + 1;
+      console.log(countRef);
+    }
+  }, [userRating]);
 
   const isWatched = watched.map((movie) => movie.imdbId).includes(selectedId);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbId === selectedId
   )?.userRating;
   const {
-    Title: title, Year: year, Poster: poster, Runtime: runTime, imdbRating, Plot: plot, Released: released, Actors: actors, Director: director, Genre: genre,
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runTime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
   } = movie;
 
-  const [avgRating,setAvgRating]=useState(0)
+  const [avgRating, setAvgRating] = useState(0);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -27,11 +50,12 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
       imdbRating: Number(imdbRating),
       runtime: Number(runTime.split(" ").at(0)),
       userRating,
+      countRatingDecision: countRef.current
     };
     // console.log(newWatchedMovie)
     onAddWatched(newWatchedMovie);
     // onCloseMovie();
-    setAvgRating(((Number(imdbRating)+userRating)/2))
+    setAvgRating((Number(imdbRating) + userRating) / 2);
   }
   useEffect(() => {
     const controller = new AbortController(); //native browser api for data fetching clean up.
@@ -55,27 +79,25 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
   useEffect(() => {
     document.title = `Movie | ${title}`;
 
-    return (() => {
-      document.title = 'MovieManiac';
+    return () => {
+      document.title = "MovieManiac";
       // console.log(`clean up effect for movie ${title}`)
       // this will remember the title even after the unmount because of a closure that states a funx will remember all the variable that were present at the time of fnx creation.
-    });
+    };
   }, [title]);
 
-
   useEffect(() => {
-    //oneach mount a event listener is added to the document. 
+    //oneach mount a event listener is added to the document.
     const callBack = (e) => {
-      if (e.code === 'Escape') {
+      if (e.code === "Escape") {
         onCloseMovie();
         // console.log('closing with escape key')
       }
     };
-    document.addEventListener('keydown', callBack);
+    document.addEventListener("keydown", callBack);
 
-    return (() => document.removeEventListener('keydown', callBack));
+    return () => document.removeEventListener("keydown", callBack);
   }, [onCloseMovie]);
-
 
   return (
     <div className="details">
@@ -99,14 +121,15 @@ export function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }
               </p>
             </div>
           </header>
-          <p className='rating'>The average rating is: {avgRating}</p>
+          <p className="rating">The average rating is: {avgRating}</p>
           <section>
             {!isWatched ? (
               <div className="rating">
                 <StarRating
                   maxRating={10}
                   size={24}
-                  onSetRating={setUserRating} />
+                  onSetRating={setUserRating}
+                />
                 {userRating > 0 && (
                   <button className="btn-add" onClick={handleAdd}>
                     Add to list
