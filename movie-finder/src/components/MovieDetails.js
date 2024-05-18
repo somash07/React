@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import StarRating from "./StarRating";
 import { KEY } from "./App";
 import { Loader } from "./Loader";
+import { useKey } from "../useKey";
 
 export function MovieDetails({
   selectedId,
@@ -21,6 +22,8 @@ export function MovieDetails({
       console.log(countRef);
     }
   }, [userRating]);
+
+  useKey('escape', onCloseMovie)
 
   const isWatched = watched.map((movie) => movie.imdbId).includes(selectedId);
   const watchedUserRating = watched.find(
@@ -86,18 +89,18 @@ export function MovieDetails({
     };
   }, [title]);
 
-  useEffect(() => {
-    //oneach mount a event listener is added to the document.
-    const callBack = (e) => {
-      if (e.code === "Escape") {
-        onCloseMovie();
-        // console.log('closing with escape key')
-      }
-    };
-    document.addEventListener("keydown", callBack);
+  // useEffect(() => {
+  //   //oneach mount a event listener is added to the document.
+  //   const callBack = (e) => {
+  //     if (e.code === "Escape") {
+  //       onCloseMovie();
+  //       // console.log('closing with escape key')
+  //     }
+  //   };
+  //   document.addEventListener("keydown", callBack);
 
-    return () => document.removeEventListener("keydown", callBack);
-  }, [onCloseMovie]);
+  //   return () => document.removeEventListener("keydown", callBack);
+  // }, [onCloseMovie]);
 
   return (
     <div className="details">
