@@ -11,6 +11,7 @@ import { WatchedSummary } from "./WatchedSummary";
 import { Box } from "./Box";
 import { MovieList } from "./MovieList";
 import { useMovies } from "../useMovies";
+import { useLocalStorageState } from "../useLocalStorageState";
 // const tempMovieData = [
 //   {
 //     imdbID: "tt1375666",
@@ -67,12 +68,13 @@ export default function App() {
   // console.log("rerender");
   //structural comp
   // const [watched, setWatched] = useState([]);
-  const [watched, setWatched] = useState(
-    function(){
-      const storedVal=localStorage.getItem('watched')
-      return JSON.parse(storedVal)
-    }
-  );
+  // const [watched, setWatched] = useState(
+  //   function(){
+  //     const storedVal=localStorage.getItem('watched')
+  //     return JSON.parse(storedVal)
+  //   }
+  // );
+  const [watched,setWatched]= useLocalStorageState([],'watched')
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const {movies, isLoading, error} = useMovies(query,handleCloseMovie)
@@ -94,9 +96,9 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbId !== id));
   }
 
-  useEffect(()=>{
-    localStorage.setItem('watched', JSON.stringify(watched))
-  },[watched])
+  // useEffect(()=>{
+  //   localStorage.setItem('watched', JSON.stringify(watched))
+  // },[watched])
 
   return (
     <>
