@@ -1,13 +1,17 @@
 import { useEffect, useReducer } from "react";
-import Header from "./components/header";
-import Main from "./components/main";
-import Loader from "./components/loader";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Loader from "./components/Loader";
 import Error from "./components/Error";
+import StartScreen from "./components/StartScreen";
+import Question from "./components/Question";
 
 const initialState = {
   questions: [],
   //loading, error, ready, active, finish
   status: "loading",
+  index: 0,
+  answer: null,
 };
 function reducer(state, action) {
   switch (action.type) {
@@ -22,13 +26,24 @@ function reducer(state, action) {
         ...state,
         status: "error",
       };
+    case 'start': 
+      return {
+        ...state,
+        status: 'active'
+      }
+    case 'newAnswer': 
+      return {
+        ...state,answer: action.payload
+      }
     default:
       throw new Error("unknown action");
   }
 }
 export default function App() {
   //nested destructuring
-  const [{questions,status}, dispatch] = useReducer(reducer, initialState);
+  const [{questions,status,index,answer}, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions= questions.length;
   useEffect(() => {
     async function loadQuestions() {
       try {
@@ -36,7 +51,7 @@ export default function App() {
         const data = await res.json();
         dispatch({ type: "dataReceived", payload: data });
       } catch (err) {
-        dispatch({ type: "datafailed" });
+        dispatch({ type: "dataFailed" });
       }
     }
     loadQuestions();
@@ -45,8 +60,10 @@ export default function App() {
     <div className="app">
       <Header />
       <Main className="main">
-        {status==='loading'} && <Loader />
-        {status==='error'} && <Error />
+        {status==='loading' && <Loader />}
+        {status==='error' && <Error />}
+        {status ==='ready' && <StartScreen numQuestions={numQuestions} dispatch={dispatch}/>}
+        {status ==='active' && <Question questions={questions[index]} dispatch={dispatch} answer={answer}/>}
       </Main>
     </div>
   );
