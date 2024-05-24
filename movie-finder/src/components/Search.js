@@ -22,6 +22,7 @@ export function Search({ query, setQuery }) {
     // if(inputElement && inputElement.current!==document.activeElement){
       if(inputElement.current=== document.activeElement) return
       inputElement?.current.focus()
+      
       setQuery('')
     // }
   })
