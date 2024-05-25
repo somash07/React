@@ -4,7 +4,7 @@ function Timer({dispatch,secondsRemaining}) {
         const id= setInterval(()=> dispatch({type: "tick"}),1000)
         return (()=> clearInterval(id))
     },[dispatch])
-    return <div className="timer">{secondsRemaining}</div>
+    return <div className="timer">{secondsRemaining<10 && '0'}{secondsRemaining}</div>
 }
 
 export default Timer
