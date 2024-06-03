@@ -7,6 +7,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Login from "./pages/Login"
 import CountryList from "./components/CountryList"
 import AppLayout from "./pages/AppLayout";
+import City from "./components/City"
 import CityList from "./components/CityList";
 function App() {
   const [cities,setCities] =useState([])
@@ -37,6 +38,7 @@ function App() {
           <Route path="app" element={<AppLayout />}>
             <Route index element ={<CityList cities={cities} isLoading={isLoading}/>}/>
             <Route path="cities" element={<CityList cities={cities} isLoading={isLoading }/>}/>
+            <Route path="cities/:id" element={<City cities={cities}/>}/>
             <Route path="countries" element={<CountryList cities={cities} isLoading={isLoading} />}/>
             <Route path="form" element={<p>List of Form</p>}/>
           </Route>
