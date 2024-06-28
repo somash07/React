@@ -1,27 +1,63 @@
 {
   "cities": [
     {
-      "id": "6d67",
-      "cityName": "Castello de la Plana",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-06-28T15:22:43.051Z",
+      "id": "0fe9",
+      "cityName": "Bhaktapur",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2024-06-28T17:35:28.266Z",
       "notes": "",
       "position": {
-        "lat": "40.03615796052209",
-        "lng": "-0.0418853759765625"
+        "lat": "27.67372294560966",
+        "lng": "85.42977333068849"
       }
     },
     {
-      "id": "f78e",
-      "cityName": "Castello de la Plana",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-06-28T15:29:48.481Z",
+      "id": "73d7",
+      "cityName": "Changunarayan",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2024-06-28T17:35:31.550Z",
       "notes": "",
       "position": {
-        "lat": "39.99513929066842",
-        "lng": "-0.02901077270507813"
+        "lat": "27.669770237922528",
+        "lng": "85.44299125671388"
+      }
+    },
+    {
+      "id": "2633",
+      "cityName": "Suryabinayak",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2024-06-28T17:35:35.302Z",
+      "notes": "",
+      "position": {
+        "lat": "27.662548575810682",
+        "lng": "85.42342185974123"
+      }
+    },
+    {
+      "id": "182d",
+      "cityName": "Suryabinayak",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2024-06-28T17:35:37.583Z",
+      "notes": "",
+      "position": {
+        "lat": "27.66984625288034",
+        "lng": "85.41320800781251"
+      }
+    },
+    {
+      "id": "6737",
+      "cityName": "Changunarayan",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2024-06-28T17:35:41.916Z",
+      "notes": "",
+      "position": {
+        "lat": "27.67885365094978",
+        "lng": "85.4444932937622"
       }
     }
   ]
