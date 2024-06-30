@@ -41,6 +41,9 @@ function AuthProvider({ children }) {
         dispatch({type: 'login', payload: FAKE_USER})
         console.log("logged in")
     }
+    else{
+      alert("invalid credintials")
+    }
   }
 
   function logout() {
@@ -56,6 +59,7 @@ function AuthProvider({ children }) {
       }}
     >
       {children}
+      {console.log(user)}
     </AuthContext.Provider>
   );
 }

@@ -1,9 +1,5 @@
-function Timer({children}) {
-    return (
-       <footer>
-        {children}
-       </footer>
-    )
+function Footer({ children }) {
+  return <footer>{children}</footer>;
 }
 
-export default Timer
+export default Footer;
