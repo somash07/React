@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 function createRandomPost() {
@@ -25,6 +25,17 @@ function PostProvider({ children }) {
         )
       : posts;
 
+  //one context perstate or else if one of the values changes the components consuming the context will also be rerendered
+  const values = useMemo(() => {
+    return {
+      posts: searchedPosts,
+      onClearPosts: handleClearPosts,
+      onAddPost: handleAddPost,
+      searchQuery,
+      setSearchQuery,
+    };
+  }, [searchQuery, searchedPosts]);
+
   function handleAddPost(post) {
     setPosts((posts) => [post, ...posts]);
   }
@@ -34,17 +45,8 @@ function PostProvider({ children }) {
   }
 
   return (
-    <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onClearPosts: handleClearPosts,
-        onAddPost: handleAddPost,
-        searchQuery,
-        setSearchQuery,
-      }}
-    >
-      {children}
-    </PostContext.Provider>
+    //For each render cause by the parent rerendering, the value will be recreated  so context is being changed for each render . so useMemo for values
+    <PostContext.Provider value={values}>{children}</PostContext.Provider>
   );
 }
 //custom hooks for consuming the contect of the PostContext
@@ -52,4 +54,4 @@ const usePosts = () => {
   const context = useContext(PostContext);
   return context;
 };
-export { PostProvider, usePosts};
+export { PostProvider, usePosts };
