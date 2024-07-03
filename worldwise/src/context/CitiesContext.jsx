@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
 
 const CitiesContext = createContext();
 
@@ -44,11 +44,11 @@ const reducer = (state, action) => {
       };
 
     case "cities/deleted":
-      return{
+      return {
         ...state,
         isLoading: false,
-        cities: state.cities.filter((city)=> city.id!==action.payload),
-      }
+        cities: state.cities.filter((city) => city.id !== action.payload),
+      };
 
     default:
       throw new Error("Unknown action type");
@@ -56,7 +56,7 @@ const reducer = (state, action) => {
 };
 
 function CitiesProvider({ children }) {
-  const [{ cities, isLoading, currentCity ,error }, dispatch] = useReducer(
+  const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -75,8 +75,8 @@ function CitiesProvider({ children }) {
     cityNameFetch();
   }, []);
 
-  async function getCity(id) {
-    if(Number(id)===currentCity.id) return 
+  const getCity = useCallback(async function getCity(id) {
+    if (Number(id) === currentCity.id) return;
     dispatch({ type: "loading" });
     try {
       const res = await fetch(`http://localhost:3000/cities/${id}`);
@@ -85,7 +85,7 @@ function CitiesProvider({ children }) {
     } catch (e) {
       dispatch({ type: "rejected", payload: "err in data fetch" });
     }
-  }
+  },[currentCity.id]);
 
   async function createCity(newCity) {
     dispatch({ type: "loading" });
@@ -107,12 +107,12 @@ function CitiesProvider({ children }) {
 
   async function deleteCity(id) {
     // setCities((cities)=> cities.filter((city)=> city.id!==id))
-    dispatch({type: "loading"})
+    dispatch({ type: "loading" });
     try {
       await fetch(`http://localhost:3000/cities/${id}`, {
         method: "DELETE",
       });
-      dispatch({type: "cities/deleted",payload : id})
+      dispatch({ type: "cities/deleted", payload: id });
     } catch (e) {
       dispatch({ type: "rejected", payload: "err in deleting" });
     }

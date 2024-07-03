@@ -17,6 +17,8 @@ function City() {
   const { id } = useParams();
   const { getCity, currentCity, isLoading } = useCities();
 
+
+  //issue is that the getcity fnx whenever is called, the citiesContext will be changed causing the renrenders in the consumer component, then again the city component will be rendered causing the useeffect to run again
   useEffect(() => {
     getCity(id);
   }, [id]);
