@@ -1,75 +1,27 @@
 {
   "cities": [
     {
-      "id": "0fe9",
-      "cityName": "Bhaktapur",
+      "id": "6b25",
+      "cityName": "Kwholasothar",
       "country": "Nepal",
       "emoji": "🇳🇵",
-      "date": "2024-06-28T17:35:28.266Z",
-      "notes": "",
+      "date": "2024-07-10T14:25:42.232Z",
+      "notes": "smn dcmd",
       "position": {
-        "lat": "27.67372294560966",
-        "lng": "85.42977333068849"
+        "lat": "28.314053058069618",
+        "lng": "84.25964355468751"
       }
     },
     {
-      "id": "73d7",
-      "cityName": "Changunarayan",
-      "country": "Nepal",
-      "emoji": "🇳🇵",
-      "date": "2024-06-28T17:35:31.550Z",
-      "notes": "",
+      "id": "327c",
+      "cityName": "Castello de la Plana",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2024-07-10T14:54:42.456Z",
+      "notes": "asd",
       "position": {
-        "lat": "27.669770237922528",
-        "lng": "85.44299125671388"
-      }
-    },
-    {
-      "id": "2633",
-      "cityName": "Suryabinayak",
-      "country": "Nepal",
-      "emoji": "🇳🇵",
-      "date": "2024-06-28T17:35:35.302Z",
-      "notes": "",
-      "position": {
-        "lat": "27.662548575810682",
-        "lng": "85.42342185974123"
-      }
-    },
-    {
-      "id": "182d",
-      "cityName": "Suryabinayak",
-      "country": "Nepal",
-      "emoji": "🇳🇵",
-      "date": "2024-06-28T17:35:37.583Z",
-      "notes": "",
-      "position": {
-        "lat": "27.66984625288034",
-        "lng": "85.41320800781251"
-      }
-    },
-    {
-      "id": "6737",
-      "cityName": "Changunarayan",
-      "country": "Nepal",
-      "emoji": "🇳🇵",
-      "date": "2024-06-28T17:35:41.916Z",
-      "notes": "",
-      "position": {
-        "lat": "27.67885365094978",
-        "lng": "85.4444932937622"
-      }
-    },
-    {
-      "id": "e42a",
-      "cityName": "Changunarayan",
-      "country": "Nepal",
-      "emoji": "🇳🇵",
-      "date": "2024-07-03T14:36:20.599Z",
-      "notes": "",
-      "position": {
-        "lat": "27.673190858673102",
-        "lng": "85.48410415649415"
+        "lat": "40.01432926738635",
+        "lng": "0.001524163513200172"
       }
     }
   ]

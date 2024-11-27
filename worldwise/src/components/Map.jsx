@@ -59,6 +59,7 @@ function Map() {
             key={city.id}
           >
             <Popup>
+              <button onClick={()=>alert("hi")}>click me</button>
               <span>{city.emoji}</span>
               <span>{city.cityName}</span>
             </Popup>
