@@ -4,6 +4,7 @@ import Search from "./components/Search";
 import NumResults from "./components/NumResults";
 import ListBox from "./components/ListBox";
 import Loader from "./components/Loader";
+import WishList from "./components/WishList";
 
 function App() {
   const [movieList, setMovieList] = useState([]);
@@ -11,7 +12,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error,setError]= useState('')
   const [selectedMovieId, setSelectedMovieId]= useState(null)
-  const [wishlist,setWishList]= useState([])
+  const [wishlist,setWishList]= useState(function(){
+    const wishlistItem= localStorage.getItem('wishedMovie')
+    return JSON.parse(wishlistItem)
+  })
 
   const numResults = movieList?.length;
 
@@ -23,14 +27,19 @@ function App() {
   const handleWishList=(movie)=>{
     setWishList((wishlist)=>[...wishlist,movie])
   }
+
+  useEffect(()=>{
+    localStorage.setItem("wishedMovie",JSON.stringify(wishlist))
+  },[wishlist])
   useEffect(() => {
+    const controller= new AbortController();
     async function searchQuery() {
       try{
         setSelectedMovieId(null)
         setIsLoading(true);
         setError('')
         const res = await fetch(
-          `https://www.omdbapi.com/?apikey=374ea490&s=${query}`
+          `https://www.omdbapi.com/?apikey=374ea490&s=${query}`,{signal: controller.signal}
         );
 
         if(!res.ok) throw new Error('cant fetch data of somash')
@@ -45,7 +54,8 @@ function App() {
         setIsLoading(false);
       }catch(err){
         console.log(err.message)
-        setError(err.message)
+        if(err.name !== "AbortError")
+          setError(err.message)
       }finally{
         setIsLoading(false)
       }
@@ -57,7 +67,12 @@ function App() {
       return
     }
     searchQuery();
+
+    return function(){
+      controller.abort()
+    }
   }, [query]);
+
   return (
     <div>
       <NavBar>
@@ -69,7 +84,7 @@ function App() {
         {error && <ErrorMessage message={error}/>}
         {!isLoading && !error && <ListBox movieList={movieList} handleSelectedMovie={handleSelectedMovie} onAddtoWishlist={handleWishList} selectedMovieId={selectedMovieId}/>}
       </main>
-      {wishlist?.map((item)=>item.title)}
+      <WishList wishlist={wishlist} setWishList={setWishList}/>
     </div>
   );
 }

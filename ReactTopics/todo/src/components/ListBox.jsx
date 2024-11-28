@@ -56,6 +56,7 @@ function MovieCard({ handleSelectedMovie, selectedMovieId ,onAddtoWishlist}) {
    }
    onAddtoWishlist(newWishlistItem)
   }
+
   useEffect(() => {
     async function getMoviesViaId() {
       try {
@@ -75,6 +76,33 @@ function MovieCard({ handleSelectedMovie, selectedMovieId ,onAddtoWishlist}) {
     }
     getMoviesViaId();
   }, [selectedMovieId]);
+
+  useEffect(()=>{
+    if(!title) return 
+    document.title = `Movie | ${title}`
+
+    return function (){
+        document.title ="usepopcorn"
+        console.log("this is cleanup for ", {title})
+    }
+  },[title])
+
+  useEffect(()=>{
+    document.addEventListener('keydown', (e)=>{
+      if(e.code=== "Escape"){
+        handleSelectedMovie(null)
+      }
+    })
+
+    return function(){
+        document.removeEventListener('keydown', (e)=>{
+            if(e.code === "Escape")
+                handleSelectedMovie(null)
+        })
+    }
+  },[handleSelectedMovie])
+
+
   return (
     <div className="h-full w-full flex flex-col gap-3">
       <button
@@ -98,7 +126,7 @@ function MovieCard({ handleSelectedMovie, selectedMovieId ,onAddtoWishlist}) {
       <div className="flex flex-col gap-5">
         <p>{plot}</p>
         <button className="h-10 rounded-lg w-full bg-black text-white hover:bg-slate-300" onClick={handleAdd}>
-          add to watch List
+          Add to watch List
         </button>
       </div>
     </div>
