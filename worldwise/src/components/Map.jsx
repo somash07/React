@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useCities } from "../context/CitiesContext";
 import Button from "./Button";
-import useGeolocation from "../hooks/useGEolocation";
+import useGeolocation from "../hooks/useGeolocation";
 import useURLPosition from "../hooks/useURLPosition";
 function Map() {
   const { cities } = useCities();
